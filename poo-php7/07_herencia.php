@@ -34,7 +34,7 @@ class Resta extends Operacion {
  $oper2 = new Resta(10, 9);
  echo "\n La resta es: ".$oper2->getResultado();
  $oper3 = new Multiplicacion(10, 10);
- echo "\n La multiplicacion es: ".$oper3->getResultado();
+ echo "\n La multiplicacio                                                                      n es: ".$oper3->getResultado();
  $oper4 = new Division(10, 5);
  echo "\n La division es: ".$oper4->getResultado();
 ?>
