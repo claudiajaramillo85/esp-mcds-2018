@@ -10,6 +10,10 @@ class Controller{
 				$this->add();
 				
 			}
+			if ($_GET['page'] == 'show') {
+				$this->show($_GET['id']);
+				
+			}
 			
 		}else{
 			$this->home();
@@ -17,8 +21,8 @@ class Controller{
 	}
 	public function home(){
 		//$datos = $this->model->getInfo();
-		$datos = $this->model->getAllUsers();
-		$this->load->view('home.php', $datos);
+		$data = $this->model->getAllUsers();
+		$this->load->view('home.php', $data);
 	}
 	public function add(){
 		if ($_POST) {
@@ -28,15 +32,25 @@ class Controller{
 			$phoneNumber =$_POST['phoneNumber'];
 			$address     =$_POST['address'];
 			if ($this->model->addUser($firstName, $lastName, $email, $phoneNumber, $address)) {
-				echo "<script> alert('User was added successfully!'); window.location.replace('./'); </script>";
+				$_SESSION['status'] = "success";
+				$_SESSION['message'] = "User was added successfully!";
+				header('Location: ./');
 			}
 			else{
-				echo "<script> alert('User wasn't added successfully!'); window.location.replace('./'); </script>";
+				$_SESSION['status'] = "error";
+				$_SESSION['message'] = "User wasnt added successfully!";
+				header('Location: ./');
 			}
 			
 		
 		}
 		$this->load->view('users/add.php');
+	}
+
+		public function show($id){
+		//$datos = $this->model->getInfo();
+		$data = $this->model->getUser($id);
+		$this->load->view('users/show.php', $data);
 	}
 }
 ?>
