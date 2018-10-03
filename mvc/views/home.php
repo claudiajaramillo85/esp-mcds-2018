@@ -1,28 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 	<meta charset="UTF-8">
-	<title>Modelo vista Controlador - MVC - CRUD</title>
-
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+	<title> CRUD MVC </title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+	<link href="https://fonts.googleapis.com/css?family=Muli:200,300,400,600,700,800,900" rel="stylesheet">
 	<style>
-		body{
+		body {
 			font-family: 'Muli', sans-serif;
-			font-weight: 400;
+			font-weight: 200;
 		}
 	</style>
-	<link href="https://fonts.googleapis.com/css?family=Muli:200,200i,300,300i,400,400i,600,600i,700,800,900" rel="stylesheet"> 
-
-
 </head>
 <body>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-8 offset-2">
-				<h1 class = "text-center"> <i class="fa fa-address-book "></i>CRUD MVC</h1>
+			<div class="col-md-8 offset-md-2">
+				<h1 class="text-center"> <i class="fa fa-users"></i> CRUD MVC</h1>
 				<hr>
-				<a href="?page=add" class="btn btn-success"><i class = "fa fa-plus"> Add User </i></a>
+				<a href="?page=add" class="btn btn-success"><i class="fa fa-plus"> Add User </i></a>
 				<br><br>
 				<table class="table table-striped table-hover table-dark">
 					<thead>
@@ -36,42 +33,55 @@
 					</thead>
 					<tbody>
 						<?php foreach ($data as $user): ?>
-							<tr>
-								<td><?php echo $user['id'] ?></td>
-								<td><?php echo $user['firstName'] ?></td>
-								<td><?php echo $user['lastName'] ?></td>
-								<td><?php echo $user['email'] ?></td>
-								<td>
-									<a href="?page=show&id=<?php echo $user['id'] ?>"class="btn btn-sm btn-primary"> <i class="fa fa-search"></i> </a>
-									<a href="" class="btn btn-sm btn-info"> <i class="fa fa-pen"></i> </a>
-									<a href="" class="btn btn-sm btn-danger"> <i class="fa fa-trash"></i> </a>
-								</td>
-							</tr>
+						<tr>
+							<td><?php echo $user['id']; ?></td>
+							<td><?php echo $user['firstName']; ?></td>
+							<td><?php echo $user['lastName']; ?></td>
+							<td><?php echo $user['email']; ?></td>
+							<td>	
+								<a href="?page=show&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-info"> <i class="fa fa-search"></i> </a>
+								<a href="?page=edit&id=<?php echo $user['id']; ?>" class="btn btn-sm btn-info"> <i class="fa fa-pen"></i> </a>
+								<a href="javascript:;" class="btn btn-sm btn-danger btn-delete" data-id="<?php echo $user['id']; ?>"> <i class="fa fa-trash"></i> </a>
+							</td>
+						</tr>
 						<?php endforeach ?>
-						
 					</tbody>
-					</table>
+				</table>
 			</div>
 		</div>
 	</div>
 	<script src="public/js/jquery-3.3.1.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.26.28/dist/sweetalert2.all.min.js"></script>
 	<script>
-		$(document).ready(function(){
-
+		$(document).ready(function() {
+			$('.btn-delete').click(function(event) {
+				$id = $(this).attr('data-id');
+				swal({
+				  title: 'Are you sure ?',
+				  text: 'You really want to delete this user ?',
+				  type: 'warning',
+				  showCancelButton: true,
+				  cancelButtonColor: '#d33'
+				}).then((result) => {
+				  if (result.value) {
+					window.location.replace('?page=delete&id='+$id);
+				  }
+				});
+			});
 			<?php if (isset($_SESSION['status'])): ?>
-			swal(
-  				'Message:',
-  				"<?php echo $_SESSION['message'];?>",
-  				"<?php echo $_SESSION['status'];?>"
+				swal(
+					'Message:',
+					'<?php echo $_SESSION['message']; ?>',
+					'<?php echo $_SESSION['status']; ?>'
 				);
 			<?php endif ?>
 			<?php 
 				unset($_SESSION['message']);
 				unset($_SESSION['status']);
-			 ?>
+			?>
+			
 		});
-	</script>
+	</script>	
 </body>
 </html>
